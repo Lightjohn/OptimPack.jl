@@ -1,15 +1,15 @@
 sudo: false
 
 language: julia
-
+julia:
+  - release
+  - nightly
+  
 notifications:
   email: false
-
-env:
-  matrix:
-    - JULIAVERSION="juliareleases"
-    - JULIAVERSION="julianightlies"
-
+  
+before_install:
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  
 script:
   - julia -e 'Pkg.init(); Pkg.add("BinDeps"); Pkg.clone(pwd()); Pkg.build("OptimPack"); Pkg.test("OptimPack")'
-
